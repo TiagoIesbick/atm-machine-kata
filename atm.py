@@ -36,13 +36,13 @@ class ATMService:
             raise ATMServiceError("The list of values must be the same length as the list of types.")
         return True
 
-    def withdraw(self, amount: int):
+    def withdraw(self, amount: int) -> str:
         withdraw_statements = []
-        for i in self.initial_state["Values"]:
-            qut = amount // i
-            amount -= qut*i
+        for row in self.initial_state.itertuples(index=False):
+            qut = amount // row.Values
             if qut > 0:
+                amount -= qut * row.Values
                 withdraw_statements.append(
-                    f"{qut} {self.initial_state.loc[self.initial_state["Values"] == i, "Type"].values[0]}{'s'[:qut^1]} of {i}"
+                    f"{qut} {row.Type}{'s'[:qut^1]} of {row.Values}"
                 )
         return '\n'.join(withdraw_statements)
