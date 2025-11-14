@@ -37,13 +37,12 @@ class ATMService:
         return True
 
     def withdraw(self, amount: int):
+        withdraw_statements = []
         for i in self.initial_state["Values"]:
             qut = amount // i
             amount -= qut*i
             if qut > 0:
-                print(f"{qut} {self.initial_state.loc[self.initial_state["Values"] == i, "Type"].values[0]}{'s'[:qut^1]} of {i}")
-
-
-# atm = ATMService()
-
-# atm.withdraw(434)
+                withdraw_statements.append(
+                    f"{qut} {self.initial_state.loc[self.initial_state["Values"] == i, "Type"].values[0]}{'s'[:qut^1]} of {i}"
+                )
+        return '\n'.join(withdraw_statements)

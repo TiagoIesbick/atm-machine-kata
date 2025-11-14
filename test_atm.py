@@ -33,3 +33,7 @@ def test_validate_lists_lenght():
     with pytest.raises(ATMServiceError):
         atm._validate_lists_lenght([1,2], [1])
     assert atm._validate_lists_lenght([1,2], ["a", "b"])
+
+def test_withdraw():
+    atm = ATMService()
+    assert atm.withdraw(604) == '1 bill of 500\n1 bill of 100\n2 coins of 2'
