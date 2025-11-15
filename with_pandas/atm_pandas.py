@@ -43,6 +43,6 @@ class ATMService:
             if qut > 0:
                 amount -= qut * row.Values
                 withdraw_statements.append(
-                    f"{qut} {row.Type}{'s'[:qut^1]} of {row.Values}"
+                    f"{qut} {row.Type}{'s'[:qut^1]} of {row.Values}."
                 )
         return '\n'.join(withdraw_statements)

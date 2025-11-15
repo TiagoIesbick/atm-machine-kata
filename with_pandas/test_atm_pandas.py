@@ -40,4 +40,5 @@ def test_validate_lists_lenght():
 
 def test_withdraw():
     atm = ATMService()
-    assert atm.withdraw(604) == '1 bill of 500\n1 bill of 100\n2 coins of 2'
+    assert atm.withdraw(604) == '1 bill of 500.\n1 bill of 100.\n2 coins of 2.'
+    assert atm.withdraw(434) == '2 bills of 200.\n1 bill of 20.\n1 bill of 10.\n2 coins of 2.'

@@ -30,5 +30,5 @@ class ATMServicePydantic:
             qut = amount // money.Values
             if qut > 0:
                 amount -= qut * money.Values
-                withdraw_statement.append(f"{qut} {money.Type}{'s'[:qut^1]} of {money.Values}")
+                withdraw_statement.append(f"{qut} {money.Type}{'s'[:qut^1]} of {money.Values}.")
         return '\n'.join(withdraw_statement)
