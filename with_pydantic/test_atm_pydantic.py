@@ -34,7 +34,7 @@ def test_init_atm_service():
         ATMServicePydantic(initial_state=[MoneyPydantic(Values=-1, Type="bill")])
     with pytest.raises(ValidationError):
         ATMServicePydantic(initial_state=[MoneyPydantic(Values=5, Type="hello")])
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError):
         ATMServicePydantic(
             initial_state_with_quantity=MoneyPydanticWithQuantity(Values=100, Type="bill", Quantity=-1)
         )
