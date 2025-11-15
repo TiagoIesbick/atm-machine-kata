@@ -22,8 +22,8 @@ class ATMService:
         }).sort_values(by=["Values"], ascending=False, ignore_index=True)
 
     def _validate_list_of_ints(self, int_list: list[int]) -> bool:
-        if not (isinstance(int_list, list) and all(isinstance(i, int) for i in int_list)):
-            raise ValueError("The list of values must contain only integers.")
+        if not (isinstance(int_list, list) and all(isinstance(i, int) and i > 0 for i in int_list)):
+            raise ValueError("The list of values must contain only positive integers.")
         return True
 
     def _validate_list_of_bills_or_coins(self, money_type_list: list[str]) -> bool:

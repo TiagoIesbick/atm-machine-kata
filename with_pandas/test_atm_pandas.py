@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from atm import ATMService, ATMServiceError
+from atm_pandas import ATMService, ATMServiceError
 
 
 def test_init_atm_service():
@@ -18,6 +18,10 @@ def test_validate_list_of_ints():
         atm._validate_list_of_ints([1, "a"])
     with pytest.raises(ValueError):
         atm._validate_list_of_ints("hello")
+    with pytest.raises(ValueError):
+        atm._validate_list_of_ints([1, -1])
+    with pytest.raises(ValueError):
+        atm._validate_list_of_ints([1, 0])
     assert atm._validate_list_of_ints([1,2])
 
 def test_validate_list_of_bills_or_coins():
