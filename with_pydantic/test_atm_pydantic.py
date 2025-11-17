@@ -80,4 +80,6 @@ def test_validate_amount():
         ATMServicePydantic()._validate_amount(-1)
     with pytest.raises(ValueError):
         ATMServicePydantic()._validate_amount("hello")
+    with pytest.raises(ValueError):
+        ATMServicePydantic()._validate_amount(1.5)
     assert ATMServicePydantic()._validate_amount(1) == None

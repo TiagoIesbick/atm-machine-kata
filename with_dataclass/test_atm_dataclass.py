@@ -79,4 +79,6 @@ def test_validate_amount():
         ATMServiceDataClass()._validate_amount(-1)
     with pytest.raises(ValueError):
         ATMServiceDataClass()._validate_amount("hello")
+    with pytest.raises(ValueError):
+        ATMServiceDataClass()._validate_amount(1.5)
     assert ATMServiceDataClass()._validate_amount(1) == None
