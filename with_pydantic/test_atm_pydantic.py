@@ -72,3 +72,12 @@ def test_withdraw_with_quantity():
     ]
     with pytest.raises(InsufficientATMCashError):
         atm.withdraw_with_quantity(1551)
+
+def test_validate_amount():
+    with pytest.raises(ValueError):
+        ATMServicePydantic()._validate_amount(0)
+    with pytest.raises(ValueError):
+        ATMServicePydantic()._validate_amount(-1)
+    with pytest.raises(ValueError):
+        ATMServicePydantic()._validate_amount("hello")
+    assert ATMServicePydantic()._validate_amount(1) == None

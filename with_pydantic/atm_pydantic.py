@@ -45,15 +45,19 @@ class ATMServicePydantic:
         self.initial_state_with_quantity = sorted(initial_state_with_quantity, key=lambda x: x.Values, reverse=True)
 
     def withdraw(self, amount: int) -> str:
+        self._validate_amount(amount)
         withdraw_statement = []
         for money in self.initial_state:
             qut = amount // money.Values
             if qut > 0:
                 amount -= qut * money.Values
                 withdraw_statement.append(f"{qut} {money.Type}{'s'[:qut^1]} of {money.Values}.")
+            if amount <= 0:
+                break
         return '\n'.join(withdraw_statement)
 
     def withdraw_with_quantity(self, amount: int) -> str:
+        self._validate_amount(amount)
         self._validate_amount_available(amount)
         withdraw_statement = []
         for money in self.initial_state_with_quantity:
@@ -62,6 +66,8 @@ class ATMServicePydantic:
                 amount -= qut * money.Values
                 money.Quantity -= qut
                 withdraw_statement.append(f"{qut} {money.Type}{'s'[:qut^1]} of {money.Values}.")
+            if amount <= 0:
+                break
         return '\n'.join(withdraw_statement)
 
     def _validate_amount_available(self, amount: int) -> None:
@@ -69,3 +75,7 @@ class ATMServicePydantic:
             raise InsufficientATMCashError(
                 "The ATM machine has not enough money, please go to the nearest atm machine"
             )
+
+    def _validate_amount(self, amount: int) -> None:
+        if not isinstance(amount, int) or amount <= 0:
+            raise ValueError("Amount must be a positive integer.")

@@ -58,6 +58,7 @@ class ATMService:
         return True
 
     def withdraw(self, amount: int) -> str:
+        self._validate_amount(amount)
         withdraw_statements = []
         for row in self.initial_state.itertuples(index=False):
             qut = amount // row.Values
@@ -66,9 +67,12 @@ class ATMService:
                 withdraw_statements.append(
                     f"{qut} {row.Type}{'s'[:qut^1]} of {row.Values}."
                 )
+            if amount <= 0:
+                break
         return '\n'.join(withdraw_statements)
 
     def withdraw_with_quantity(self, amount: int) -> str:
+        self._validate_amount(amount)
         self._validate_amount_available(amount)
         withdraw_statement = []
         for row in self.initial_state_with_quantity.itertuples():
@@ -77,6 +81,8 @@ class ATMService:
                 amount -= qut * row.Values
                 self.initial_state_with_quantity.loc[row.Index, "Quantity"] -= qut
                 withdraw_statement.append(f"{qut} {row.Type}{'s'[:qut^1]} of {row.Values}.")
+            if amount <= 0:
+                break
         return '\n'.join(withdraw_statement)
 
     def _validate_amount_available(self, amount: int) -> None:
@@ -84,3 +90,7 @@ class ATMService:
             raise InsufficientATMCashError(
                 "The ATM machine has not enough money, please go to the nearest atm machine"
             )
+
+    def _validate_amount(self, amount: int) -> None:
+        if not isinstance(amount, int) or amount <= 0:
+            raise ValueError("Amount must be a positive integer.")
